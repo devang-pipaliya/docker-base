@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: "portainer_ce_2"
+    restart: always
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    ports:
+      - 7788:9000
+      - 8001:8000
+    networks:
+      web:
+        ipv4_address: 172.18.0.2
+
+networks:
+  web:
+    # This will be used by administrative
+    #   - portainer.io
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/24
+
+
+volumes:
+  portainer_data:
