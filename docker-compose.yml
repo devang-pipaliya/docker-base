@@ -1,0 +1,34 @@
+
+version: '3'
+
+
+services:
+  hello-world:
+    image: hello-world
+    networks:
+      web:
+        ipv4_address: 172.19.0.2
+      database_web:
+        ipv4_address: 172.20.0.2
+
+networks:
+  web:
+    # This will be used by administrative
+    #   - filezilla
+    #   - apache
+    #   - ngnix
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/24
+
+  database_web:
+    # This will be used by databases
+    #   - postgres 9.6 ip range can be from 172.20.5.96
+    #   - postgres 10 ip range can be from 172.20.5.100
+    #   - pgadmin4
+    #   - mysql
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
